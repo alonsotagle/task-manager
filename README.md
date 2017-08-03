@@ -17,7 +17,7 @@ El usuario puede realizar las siguientes acciones:
 - Ver el historial de tareas completadas
 - Ver una gráfica de su historial de tareas en la última semana
 - Filtrar la lista de tareas pendientes según su duración:
-	- corto 30 mino menos
+	- corto 30 min o menos
 	- medio: de 30 min a 1h
 	- largo: más de 1h
 
@@ -31,7 +31,7 @@ El usuario puede realizar las siguientes acciones:
 ### INTERFAZ DE USUARO
 - Los componentes de la interfaz deben ser desarrollados en React.
 - Pueden utilizarse componentes de React que integren el framework de Ul de preferencia (material-ui, react-mdl, react-bootstrap), así como para armar la gráfica (react-d3, victory). Se recomienda los componentes se estructuren entre contenedores y presentacionales (stateful vs stateless)
-- Cuidar la responsivodad de la interfaz en múltiples dispositivos
+- Cuidar la responsividad de la interfaz en múltiples dispositivos
 
 ### APLICACIÓN
 - El estado de la aplicación debe estar diseñado con Redux.
