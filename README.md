@@ -17,9 +17,9 @@ El usuario puede realizar las siguientes acciones:
 - Ver el historial de tareas completadas
 - Ver una gráfica de su historial de tareas en la última semana
 - Filtrar la lista de tareas pendientes según su duración:
-  - corto 30 mino menos
-  - medio: de 30 min a 1h
-  - largo: más de 1h
+	- corto 30 mino menos
+	- medio: de 30 min a 1h
+	- largo: más de 1h
 
 ### REGLAS DE NEGOCIO
 - La tarea en curso es la tarea que está al inicio de la lista.
@@ -35,11 +35,8 @@ El usuario puede realizar las siguientes acciones:
 
 ### APLICACIÓN
 - El estado de la aplicación debe estar diseñado con Redux.
-- Debe persistirse el estado de la aplicación del lado del cliente; es decir, al cerrar y abrir
-de nuevo la aplicación, deben conservarse los datos.
-- Debe existir una función para prellenar la aplicación con 50 tareas aleatorias,
-completadas consumiendo entre el 80% y el 100% de su duración, distribuidas en la
-última semana
+- Debe persistirse el estado de la aplicación del lado del cliente; es decir, al cerrar y abrir de nuevo la aplicación, deben conservarse los datos.
+- Debe existir una función para prellenar la aplicación con 50 tareas aleatorias, completadas consumiendo entre el 80% y el 100% de su duración, distribuidas en la última semana
 
 ### CÓDIGO
 - Desarrollar el código utilizando la especificación más reciente de JavaScript (ES6)
