@@ -17,12 +17,12 @@ export default class CreateTask extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onTouchTap={this.props.onPressSaveNewTask}
+        onClick={this.props.onPressSaveNewTask}
         />,
       <FlatButton
         label="Save"
         primary
-        onTouchTap={this.props.onPressSaveNewTask}
+        onClick={this.props.onPressSaveNewTask}
         />,
     ];
 

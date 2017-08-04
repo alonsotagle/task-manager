@@ -5,7 +5,6 @@ import ActionGrade from 'material-ui/svg-icons/action/grade';
 
 export default class TaskItem extends Component {
 
-
   render() {
     return (
       <ListItem key={this.props.task.id}>
@@ -14,8 +13,16 @@ export default class TaskItem extends Component {
           <CardText>{this.props.task.description}</CardText>
 
           <CardActions>
-            <FlatButton label="Edit" />
-            <FlatButton label="Delete" />
+
+            <FlatButton
+              label="Edit"
+              onClick={this.props.onPressEditTask}
+              />
+
+            <FlatButton
+              label="Delete"
+              onClick={this.props.onPressRemoveTask}
+              />
 
             <IconButton tooltip="bottom-right" touch={true} tooltipPosition="bottom-right">
               <ActionGrade />

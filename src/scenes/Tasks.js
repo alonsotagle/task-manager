@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-
-import {TaskList, CreateTask} from '../../components';
+import {TaskList, CreateTask} from '../components';
 
 
 export default class Tasks extends Component {
@@ -87,39 +84,70 @@ export default class Tasks extends Component {
     });
   }
 
-  onPressEditTask = task => {
-
+  onPressEditTask = taskId => {
+    console.log(`EDIT ${taskId}`);
   }
 
-  onPressRemoveTask = task => {
+  onPressRemoveTask = taskId => {
 
+    const actualTasks = this.state.tasks;
+
+    const indexFromTaskToRemove = actualTasks.findIndex(task => task.id === taskId);
+
+    indexFromTaskToRemove !== -1 && actualTasks.splice(indexFromTaskToRemove, 1);
+
+    this.setState({tasks: actualTasks});
   }
 
-  onPressFilterTasks = task => {
+  onPressFilterTasks = () => {
 
   }
 
   generateRandomTasks = () => {
+    const generatedTask = [];
 
+    for (var i = 0; i < 50; i++) {
+      generatedTask.push({
+        id: i,
+        title: this.stringGen(10),
+        description: this.stringGen(500),
+      });
+    }
+
+    this.setState({ tasks: generatedTask });
+  }
+
+  stringGen = len => {
+    var text = "";
+
+    var charset = "abcdefghijklmnopqrstuvwxyz 0123456789";
+
+    for (var i = 0; i < len; i++) {
+      text += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+
+    return text;
   }
 
 
   render() {
     return (
-      <MuiThemeProvider>
-        <div>
-          <AppBar title="Task manager" />
-          <CreateTask
-            open={this.state.ui.openNewTaskModal}
-            onChangeTitle={this.onChangeTitle}
-            onChangeDescription={this.onChangeDescription}
-            onChangeDuration={this.onChangeDuration}
-            currentTask={this.state.currentTask}
-            onPressSaveNewTask={this.onPressSaveNewTask}
-            />
-          <TaskList tasks={this.state.tasks} />
-        </div>
-      </MuiThemeProvider>
+      <div>
+        <CreateTask
+          open={this.state.ui.openNewTaskModal}
+          onChangeTitle={this.onChangeTitle}
+          onChangeDescription={this.onChangeDescription}
+          onChangeDuration={this.onChangeDuration}
+          currentTask={this.state.currentTask}
+          onPressSaveNewTask={this.onPressSaveNewTask}
+          />
+
+        <TaskList
+          tasks={this.state.tasks}
+          onPressEditTask={this.onPressEditTask}
+          onPressRemoveTask={this.onPressRemoveTask}
+          />
+      </div>
     );
   }
 }
