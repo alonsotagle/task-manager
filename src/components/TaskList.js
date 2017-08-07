@@ -8,12 +8,12 @@ export default class TaskList extends Component {
   render() {
     return (
       <List title="Task">
-        {this.props.tasks.map(task =>
+        {this.props.tasks.map((task, i) =>
           <TaskItem
-            key={task.id}
+            key={i}
             task={task}
-            onPressEditTask={() => this.props.onPressEditTask(task.id)}
-            onPressRemoveTask={() => this.props.onPressRemoveTask(task.id)}
+            onPressEditTask={() => this.props.onPressEditTask(i)}
+            onPressRemoveTask={() => this.props.onPressRemoveTask(i)}
             />
         )}
       </List>

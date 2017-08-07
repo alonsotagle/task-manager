@@ -1,50 +1,54 @@
 import React, { Component } from 'react';
-import {TaskList, CreateTask} from '../components';
+import {Actions, TaskList, TaskDialog} from '../components';
 
+const emptyTask = {
+  title: '',
+  description: '',
+  duration: -1,
+}
 
 export default class Tasks extends Component {
 
   state = {
-    currentTask : {
-      id: 0,
-      title: '',
-      description: '',
-      duration: -1,
-    },
+    currentTask : emptyTask,
     tasks: [
       {
-        id: 1,
         title: 'title',
         description: 'description',
       },
       {
-        id: 2,
         title: 'title',
         description: 'description',
       },
       {
-        id: 3,
         title: 'title',
         description: 'description',
       },
       {
-        id: 4,
         title: 'title',
         description: 'description',
       },
       {
-        id: 5,
         title: 'title',
         description: 'description',
       },
     ],
     ui: {
-      openNewTaskModal: false,
+      openTaskModal: false,
     }
   }
 
   onPressCreateTask = () => {
-
+    this.setState({
+      currentTask: {
+        ...this.state.currentTask,
+        isNew: true,
+      },
+      ui: {
+        ...this.state.ui,
+        openTaskModal: true,
+      }
+    });
   }
 
   onChangeTitle = (_, title) => {
@@ -74,27 +78,55 @@ export default class Tasks extends Component {
     });
   }
 
-  onPressSaveNewTask = () => {
-    console.log("onPressSaveNewTask");
+  onPressSave = () => {
+
+    const isNew = this.state.currentTask.isNew;
+    const tasks = this.state.tasks;
+
+    if (isNew) {
+      tasks.push(this.state.currentTask);
+    } else {
+      tasks[this.state.currentTask.taskIndex] = this.state.currentTask;
+    }
+
     this.setState({
+      currentTask: emptyTask,
+      tasks: tasks,
       ui: {
         ...this.state.ui,
-        openNewTaskModal: false
-      }
+        openTaskModal: false,
+      },
     });
   }
 
-  onPressEditTask = taskId => {
-    console.log(`EDIT ${taskId}`);
+  onPressClose = () => {
+    this.setState({
+      currentTask: emptyTask,
+      ui: {
+        ...this.state.ui,
+        openTaskModal: false,
+      },
+    });
   }
 
-  onPressRemoveTask = taskId => {
+  onPressEditTask = taskIndex => {
+    this.setState({
+      currentTask: {
+        ...this.state.tasks[taskIndex],
+        isNew: false,
+        taskIndex,
+      },
+      ui: {
+        ...this.state.ui,
+        openTaskModal: true,
+      },
+    });
+  }
+
+  onPressRemoveTask = taskIndex => {
 
     const actualTasks = this.state.tasks;
-
-    const indexFromTaskToRemove = actualTasks.findIndex(task => task.id === taskId);
-
-    indexFromTaskToRemove !== -1 && actualTasks.splice(indexFromTaskToRemove, 1);
+    actualTasks.splice(taskIndex, 1);
 
     this.setState({tasks: actualTasks});
   }
@@ -108,7 +140,6 @@ export default class Tasks extends Component {
 
     for (var i = 0; i < 50; i++) {
       generatedTask.push({
-        id: i,
         title: this.stringGen(10),
         description: this.stringGen(500),
       });
@@ -133,13 +164,18 @@ export default class Tasks extends Component {
   render() {
     return (
       <div>
-        <CreateTask
-          open={this.state.ui.openNewTaskModal}
+        <TaskDialog
+          open={this.state.ui.openTaskModal}
+          currentTask={this.state.currentTask}
           onChangeTitle={this.onChangeTitle}
           onChangeDescription={this.onChangeDescription}
           onChangeDuration={this.onChangeDuration}
-          currentTask={this.state.currentTask}
-          onPressSaveNewTask={this.onPressSaveNewTask}
+          onPressSave={this.onPressSave}
+          onPressClose={this.onPressClose}
+          />
+
+        <Actions
+          onPressCreateTask={this.onPressCreateTask}
           />
 
         <TaskList

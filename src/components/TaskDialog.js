@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Dialog, FlatButton, TextField, Slider, SelectField, MenuItem} from 'material-ui';
 
 
-export default class CreateTask extends Component {
+export default class TaskDialog extends Component {
 
   isDurationDefault = () => {
     const defaultDuration = [30, 45, 60];
@@ -17,12 +17,12 @@ export default class CreateTask extends Component {
       <FlatButton
         label="Cancel"
         secondary
-        onClick={this.props.onPressSaveNewTask}
+        onClick={this.props.onPressClose}
         />,
       <FlatButton
         label="Save"
         primary
-        onClick={this.props.onPressSaveNewTask}
+        onClick={this.props.onPressSave}
         />,
     ];
 
@@ -30,20 +30,21 @@ export default class CreateTask extends Component {
     return (
       <div>
         <Dialog
-          title="Create a new task"
+          title={this.props.currentTask.isNew ? "Create task" : "Edit task"}
           actions={this.actions}
           open={this.props.open}
-          onRequestClose={this.props.onPressSaveNewTask}
+          onRequestClose={this.props.onPressClose}
           autoScrollBodyContent
           modal
           >
-
-          Fill the fields to create a new task
           <br />
+
           <TextField
             hintText="Title"
             floatingLabelText="Title"
-          />
+            value={this.props.currentTask.title}
+            onChange={this.props.onChangeTitle}
+            />
           <br />
 
           <TextField
@@ -51,7 +52,9 @@ export default class CreateTask extends Component {
             floatingLabelText="Description"
             multiLine={true}
             rows={2}
-          />
+            value={this.props.currentTask.description}
+            onChange={this.props.onChangeDescription}
+            />
           <br />
 
           <SelectField

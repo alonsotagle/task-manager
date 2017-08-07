@@ -8,20 +8,18 @@ import {Tasks, History, Graph} from './';
 export default class RouterNavigation extends Component {
 
   state = {
-    showDrawer: true,
+    showDrawer: false,
   }
 
   toggleDrawer = () => {
-    console.log("SWITCH");
     this.setState({ showDrawer: !this.state.showDrawer });
   }
 
   navigateTo = path => {
-    console.log(path);
+    this.toggleDrawer();
   }
 
   render() {
-    console.log(this.state.showDrawer);
     return (
       <MuiThemeProvider>
         <Router>
@@ -30,29 +28,29 @@ export default class RouterNavigation extends Component {
               <AppBar
                 title="Task manager"
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
-                onLeftIconButtonTouchTap={this.toggleDrawer}
+                onClick={this.toggleDrawer}
                 />
               <Drawer
                 docked={false}
                 open={this.state.showDrawer}
                 onRequestChange={this.toggleDrawer}
                 >
-                <AppBar title="Close" onLeftIconButtonTouchTap={this.toggleDrawer} />
+                <AppBar title="Menu" onClick={this.toggleDrawer} />
                 <MenuItem
                   primaryText="Tasks"
-                  onTouchTap={() => this.navigateTo("/")}
+                  onClick={() => this.navigateTo("/")}
                   containerElement={<Link to="/" />}
                   />
 
                 <MenuItem
                   primaryText="History"
-                  onTouchTap={() => this.navigateTo("/history")}
+                  onClick={() => this.navigateTo("/history")}
                   containerElement={<Link to="/history" />}
                   />
 
                 <MenuItem
                   primaryText="Graph"
-                  onTouchTap={() => this.navigateTo("/graph")}
+                  onClick={() => this.navigateTo("/graph")}
                   containerElement={<Link to="/graph" />}
                   />
               </Drawer>
