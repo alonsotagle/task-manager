@@ -1,17 +1,8 @@
 import React, { Component } from 'react';
-import {Dialog, FlatButton, TextField, Slider, SelectField, MenuItem} from 'material-ui';
+import {Dialog, FlatButton, TextField, Slider, SelectField, MenuItem, AutoComplete} from 'material-ui';
 
 
 export default class TaskDialog extends Component {
-
-  isDurationDefault = () => {
-    const defaultDuration = [30, 45, 60];
-
-    const durationIsDefaultValue = this.props.currentTask.duration &&
-      defaultDuration.some(item => item === this.props.currentTask.duration);
-
-    return durationIsDefaultValue;
-  }
 
   actions = [
       <FlatButton
@@ -50,31 +41,20 @@ export default class TaskDialog extends Component {
           <TextField
             hintText="Description"
             floatingLabelText="Description"
-            multiLine={true}
+            multiLine
             rows={2}
             value={this.props.currentTask.description}
             onChange={this.props.onChangeDescription}
             />
           <br />
 
-          <SelectField
+          <AutoComplete
             floatingLabelText="Duration"
-            value={this.props.currentTask.duration}
-            onChange={this.props.onChangeDuration}
-            >
-            <MenuItem value={1} primaryText="30 min" />
-            <MenuItem value={2} primaryText="45 min" />
-            <MenuItem value={3} primaryText="60 min" />
-            <MenuItem value={4} primaryText="Other" />
-          </SelectField>
-
-          {this.isDurationDefault() &&
-            <Slider
-              min={0}
-              max={180}
-              step={1}
-              />
-          }
+            filter={AutoComplete.noFilter}
+            openOnFocus
+            dataSource={["30", "45", "60"]}
+            onUpdateInput={this.props.onChangeDuration}
+            />
         </Dialog>
       </div>
     );

@@ -5,36 +5,18 @@ const emptyTask = {
   title: '',
   description: '',
   duration: -1,
+  state: 0,
 }
 
 export default class Tasks extends Component {
 
   state = {
     currentTask : emptyTask,
-    tasks: [
-      {
-        title: 'title',
-        description: 'description',
-      },
-      {
-        title: 'title',
-        description: 'description',
-      },
-      {
-        title: 'title',
-        description: 'description',
-      },
-      {
-        title: 'title',
-        description: 'description',
-      },
-      {
-        title: 'title',
-        description: 'description',
-      },
-    ],
+    tasks: [],
     ui: {
       openTaskModal: false,
+      orderAlphabetically: true,
+      orderDuration: true,
     }
   }
 
@@ -69,7 +51,7 @@ export default class Tasks extends Component {
     });
   }
 
-  onChangeDuration = (_, key, duration) => {
+  onChangeDuration = duration => {
     this.setState({
       currentTask: {
         ...this.state.currentTask,
@@ -124,40 +106,87 @@ export default class Tasks extends Component {
   }
 
   onPressRemoveTask = taskIndex => {
+    const currentTasks = this.state.tasks;
+    currentTasks.splice(taskIndex, 1);
 
-    const actualTasks = this.state.tasks;
-    actualTasks.splice(taskIndex, 1);
-
-    this.setState({tasks: actualTasks});
+    this.setState({tasks: currentTasks});
   }
 
-  onPressFilterTasks = () => {
+  onPressOrderAlphabeticallyTasks = () => {
+    const currentTasks = this.state.tasks;
+    const orderAlphabetically = this.state.ui.orderAlphabetically;
 
+    if (orderAlphabetically) {
+      currentTasks.sort((a, b) => a.title > b.title ? 1 : -1);
+    } else {
+      currentTasks.sort((a, b) => a.title < b.title ? 1 : -1);
+    }
+
+    this.setState({
+      tasks: currentTasks,
+      ui: {
+        ...this.state.ui,
+        orderAlphabetically: !this.state.ui.orderAlphabetically,
+      },
+    });
   }
 
-  generateRandomTasks = () => {
+  onPressOrderDurationTasks = () => {
+    const currentTasks = this.state.tasks;
+    const orderDuration = this.state.ui.orderDuration;
+
+    if (orderDuration) {
+      currentTasks.sort((a, b) => a.duration - b.duration);
+    } else {
+      currentTasks.sort((a, b) => b.duration - a.duration);
+    }
+
+    this.setState({
+      tasks: currentTasks,
+      ui: {
+        ...this.state.ui,
+        orderDuration: !this.state.ui.orderDuration,
+      },
+    });
+  }
+
+  onPressGenerateTasks = () => {
     const generatedTask = [];
 
     for (var i = 0; i < 50; i++) {
       generatedTask.push({
-        title: this.stringGen(10),
-        description: this.stringGen(500),
+        title: this.stringGenerator(10),
+        description: this.stringGenerator(500),
+        duration: this.intGenerator(2),
+        state: i % 3 ? 1: 0,
       });
     }
 
     this.setState({ tasks: generatedTask });
   }
 
-  stringGen = len => {
+  stringGenerator = len => {
     var text = "";
 
-    var charset = "abcdefghijklmnopqrstuvwxyz 0123456789";
+    var charset = "abcdefghijklmnopqrstuvwxyz ";
 
     for (var i = 0; i < len; i++) {
       text += charset.charAt(Math.floor(Math.random() * charset.length));
     }
 
     return text;
+  }
+
+  intGenerator = len => {
+    var text = "";
+
+    var charset = "1234567890";
+
+    for (var i = 0; i < len; i++) {
+      text += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+
+    return parseInt(text);
   }
 
 
@@ -176,6 +205,9 @@ export default class Tasks extends Component {
 
         <Actions
           onPressCreateTask={this.onPressCreateTask}
+          onPressOrderAlphabeticallyTasks={this.onPressOrderAlphabeticallyTasks}
+          onPressOrderDurationTasks={this.onPressOrderDurationTasks}
+          onPressGenerateTasks={this.onPressGenerateTasks}
           />
 
         <TaskList

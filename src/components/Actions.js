@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
-import ActionGrade from 'material-ui/svg-icons/content/add-circle';
-
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import {Card, FloatingActionButton} from 'material-ui';
+import AddTaskIcon from 'material-ui/svg-icons/content/add';
+import OrderAlphabeticallyIcon from 'material-ui/svg-icons/action/swap-vert';
+import OrderDurationIcon from 'material-ui/svg-icons/device/access-time';
+import GenerateTasksIcon from 'material-ui/svg-icons/action/list';
 
 
 export default class Actions extends Component {
@@ -13,11 +11,20 @@ export default class Actions extends Component {
   render() {
     return (
       <Card>
-        <FloatingActionButton
-          onTouchTap={this.props.onPressCreateTask}
-          onClick={this.props.onPressCreateTask}
-          >
-          <ContentAdd />
+        <FloatingActionButton onClick={this.props.onPressCreateTask}>
+          <AddTaskIcon />
+        </FloatingActionButton>
+
+        <FloatingActionButton onClick={this.props.onPressOrderAlphabeticallyTasks}>
+          <OrderAlphabeticallyIcon />
+        </FloatingActionButton>
+
+        <FloatingActionButton onClick={this.props.onPressOrderDurationTasks}>
+          <OrderDurationIcon />
+        </FloatingActionButton>
+
+        <FloatingActionButton onClick={this.props.onPressGenerateTasks}>
+          <GenerateTasksIcon />
         </FloatingActionButton>
       </Card>
     );

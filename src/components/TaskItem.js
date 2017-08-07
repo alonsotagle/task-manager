@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {ListItem, Card, CardTitle, CardText, CardActions, FlatButton} from 'material-ui';
+import Done from 'material-ui/svg-icons/file/cloud-done';
+import Pending from 'material-ui/svg-icons/file/cloud-queue';
 
 
 export default class TaskItem extends Component {
@@ -8,7 +10,19 @@ export default class TaskItem extends Component {
     return (
       <ListItem>
         <Card>
-          <CardTitle title={this.props.task.title} />
+          <CardTitle
+            title={this.props.task.title}
+            subtitle={`${this.props.task.duration} minutes`}
+            />
+
+          <FlatButton>
+            {this.props.task.state ?
+              <Done />
+              :
+              <Pending />
+            }
+          </FlatButton>
+
           <CardText>{this.props.task.description}</CardText>
 
           <CardActions>
