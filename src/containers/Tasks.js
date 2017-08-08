@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {Actions, TaskList, TaskDialog} from '../components';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Actions, TaskDialog } from '../components';
+import { addTask, editTask, removeTask, setVisibilityFilter } from '../actions';
+import { VisibleTaskList } from './';
 
 const emptyTask = {
   title: '',
@@ -8,16 +12,19 @@ const emptyTask = {
   state: 0,
 }
 
-export default class Tasks extends Component {
+class Tasks extends Component {
 
   state = {
     currentTask : emptyTask,
-    tasks: [],
     ui: {
       openTaskModal: false,
       orderAlphabetically: true,
       orderDuration: true,
     }
+  }
+
+  componentWillMount = () => {
+    this.props.dispatch(setVisibilityFilter("SHOW_ALL"));
   }
 
   onPressCreateTask = () => {
@@ -61,19 +68,16 @@ export default class Tasks extends Component {
   }
 
   onPressSave = () => {
-
     const isNew = this.state.currentTask.isNew;
-    const tasks = this.state.tasks;
 
     if (isNew) {
-      tasks.push(this.state.currentTask);
+      this.props.dispatch(addTask(this.state.currentTask));
     } else {
-      tasks[this.state.currentTask.taskIndex] = this.state.currentTask;
+      this.props.dispatch(editTask(this.state.currentTask.taskIndex, this.state.currentTask));
     }
 
     this.setState({
       currentTask: emptyTask,
-      tasks: tasks,
       ui: {
         ...this.state.ui,
         openTaskModal: false,
@@ -91,10 +95,10 @@ export default class Tasks extends Component {
     });
   }
 
-  onPressEditTask = taskIndex => {
+  onPressEditTask = (taskIndex, task) => {
     this.setState({
       currentTask: {
-        ...this.state.tasks[taskIndex],
+        ...task,
         isNew: false,
         taskIndex,
       },
@@ -106,63 +110,21 @@ export default class Tasks extends Component {
   }
 
   onPressRemoveTask = taskIndex => {
-    const currentTasks = this.state.tasks;
-    currentTasks.splice(taskIndex, 1);
-
-    this.setState({tasks: currentTasks});
-  }
-
-  onPressOrderAlphabeticallyTasks = () => {
-    const currentTasks = this.state.tasks;
-    const orderAlphabetically = this.state.ui.orderAlphabetically;
-
-    if (orderAlphabetically) {
-      currentTasks.sort((a, b) => a.title > b.title ? 1 : -1);
-    } else {
-      currentTasks.sort((a, b) => a.title < b.title ? 1 : -1);
-    }
-
-    this.setState({
-      tasks: currentTasks,
-      ui: {
-        ...this.state.ui,
-        orderAlphabetically: !this.state.ui.orderAlphabetically,
-      },
-    });
-  }
-
-  onPressOrderDurationTasks = () => {
-    const currentTasks = this.state.tasks;
-    const orderDuration = this.state.ui.orderDuration;
-
-    if (orderDuration) {
-      currentTasks.sort((a, b) => a.duration - b.duration);
-    } else {
-      currentTasks.sort((a, b) => b.duration - a.duration);
-    }
-
-    this.setState({
-      tasks: currentTasks,
-      ui: {
-        ...this.state.ui,
-        orderDuration: !this.state.ui.orderDuration,
-      },
-    });
+    this.props.dispatch(removeTask(taskIndex));
   }
 
   onPressGenerateTasks = () => {
-    const generatedTask = [];
 
     for (var i = 0; i < 50; i++) {
-      generatedTask.push({
+      const newTask = {
         title: this.stringGenerator(10),
         description: this.stringGenerator(500),
         duration: this.intGenerator(2),
         state: i % 3 ? 1: 0,
-      });
-    }
+      };
 
-    this.setState({ tasks: generatedTask });
+      this.props.dispatch(addTask(newTask));
+    }
   }
 
   stringGenerator = len => {
@@ -205,17 +167,13 @@ export default class Tasks extends Component {
 
         <Actions
           onPressCreateTask={this.onPressCreateTask}
-          onPressOrderAlphabeticallyTasks={this.onPressOrderAlphabeticallyTasks}
-          onPressOrderDurationTasks={this.onPressOrderDurationTasks}
           onPressGenerateTasks={this.onPressGenerateTasks}
           />
 
-        <TaskList
-          tasks={this.state.tasks}
-          onPressEditTask={this.onPressEditTask}
-          onPressRemoveTask={this.onPressRemoveTask}
-          />
+        <VisibleTaskList onPressEditTask={this.onPressEditTask} />
       </div>
     );
   }
 }
+
+export default withRouter(connect()(Tasks));
