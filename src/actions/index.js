@@ -26,3 +26,9 @@ export const setVisibilityFilter = filter => {
     filter,
   }
 }
+
+export const playTimer = () => {
+  return {
+    type: 'TIMER_PLAY',
+  }
+}

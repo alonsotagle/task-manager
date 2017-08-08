@@ -1,5 +1,5 @@
 import React from 'react';
-import {List} from 'material-ui';
+import { List } from 'material-ui';
 import TaskItem from './TaskItem';
 
 const TaskList = ({ tasks, onPressEditTask, onPressRemoveTask }) => (

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Actions, TaskDialog } from '../components';
-import { addTask, editTask, removeTask, setVisibilityFilter } from '../actions';
+import { addTask, editTask, removeTask, setVisibilityFilter, playTimer } from '../actions';
 import { VisibleTaskList } from './';
 
 const emptyTask = {
@@ -20,6 +20,7 @@ class Tasks extends Component {
       openTaskModal: false,
       orderAlphabetically: true,
       orderDuration: true,
+      isTimerRunning: true,
     }
   }
 
@@ -151,6 +152,23 @@ class Tasks extends Component {
     return parseInt(text, 10);
   }
 
+  onPressPlayTimer = () => {
+    let interval = setInterval(() => {
+      if (!this.state.ui.isTimerRunning) {
+        clearInterval(interval);
+      }
+      this.props.dispatch(playTimer())}, 1000);
+  }
+
+  onPressPauseTimer = () => {
+    this.setState({
+      ui: {
+        ...this.state.ui,
+        isTimerRunning: false,
+      }
+    });
+  }
+
 
   render() {
     return (
@@ -168,6 +186,8 @@ class Tasks extends Component {
         <Actions
           onPressCreateTask={this.onPressCreateTask}
           onPressGenerateTasks={this.onPressGenerateTasks}
+          onPressPlayTimer={this.onPressPlayTimer}
+          onPressPauseTimer={this.onPressPauseTimer}
           />
 
         <VisibleTaskList onPressEditTask={this.onPressEditTask} />
