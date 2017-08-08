@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {Actions, TaskList, TaskDialog} from '../components';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Actions, TaskList, TaskDialog } from '../components';
+import { addTask } from '../actions';
+import { VisibleTaskList } from './VisibleTaskList';
 
 const emptyTask = {
   title: '',
@@ -8,7 +12,7 @@ const emptyTask = {
   state: 0,
 }
 
-export default class Tasks extends Component {
+class Tasks extends Component {
 
   state = {
     currentTask : emptyTask,
@@ -18,6 +22,10 @@ export default class Tasks extends Component {
       orderAlphabetically: true,
       orderDuration: true,
     }
+  }
+
+  componentWillMount = () => {
+    console.log(this.props);
   }
 
   onPressCreateTask = () => {
@@ -66,7 +74,8 @@ export default class Tasks extends Component {
     const tasks = this.state.tasks;
 
     if (isNew) {
-      tasks.push(this.state.currentTask);
+      // tasks.push(this.state.currentTask);
+      this.props.dispatch(addTask(this.state.currentTask));
     } else {
       tasks[this.state.currentTask.taskIndex] = this.state.currentTask;
     }
@@ -210,6 +219,8 @@ export default class Tasks extends Component {
           onPressGenerateTasks={this.onPressGenerateTasks}
           />
 
+        <VisibleTaskList />
+
         <TaskList
           tasks={this.state.tasks}
           onPressEditTask={this.onPressEditTask}
@@ -219,3 +230,5 @@ export default class Tasks extends Component {
     );
   }
 }
+
+export default Tasks;

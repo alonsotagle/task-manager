@@ -1,12 +1,19 @@
 import React,{ Component } from 'react';
-import RouterNavigation from './scenes/RouterNavigation';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import tasksApp from './reducers';
+import RouterNavigation from './containers/RouterNavigation';
 
+
+let store = createStore(tasksApp);
 
 class App extends Component {
 
   render() {
     return (
-      <RouterNavigation />
+	  <Provider store={store}>
+        <RouterNavigation />
+      </Provider>
     );
   }
 }

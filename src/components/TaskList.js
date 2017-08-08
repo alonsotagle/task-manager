@@ -3,20 +3,15 @@ import {List} from 'material-ui';
 import TaskItem from './TaskItem';
 
 
-export default class TaskList extends Component {
-
-  render() {
-    return (
-      <List title="Task">
-        {this.props.tasks.map((task, i) =>
-          <TaskItem
-            key={i}
-            task={task}
-            onPressEditTask={() => this.props.onPressEditTask(i)}
-            onPressRemoveTask={() => this.props.onPressRemoveTask(i)}
-            />
-        )}
-      </List>
-    );
-  }
-}
+const TaskList = ({ tasks, onPressEditTask, onPressRemoveTask }) => (
+  <List title="Task">
+    {tasks.map((task, i) =>
+      <TaskItem
+        key={i}
+        task={task}
+        onPressEditTask={() => onPressEditTask(i)}
+        onPressRemoveTask={() => onPressRemoveTask(i)}
+        />
+    )}
+  </List>
+);
