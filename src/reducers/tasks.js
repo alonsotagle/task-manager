@@ -1,4 +1,5 @@
 const tasks = (state = [], action) => {
+
   switch (action.type) {
     case 'ADD_TASK':
       return [
@@ -7,12 +8,19 @@ const tasks = (state = [], action) => {
       ];
 
     case 'EDIT_TASK':
-      state[action.taskIndex] = action.task;
-      return state;
+      return state.map((item, index) => {
+          if(index !== action.taskIndex) {
+              return item;
+          }
+
+          return {
+              ...item,
+              ...action.task,
+          };
+      });
 
     case 'REMOVE_TASK':
-      state.splice(action.taskIndex, 1);
-      return state;
+      return state.filter((element, i) => i !== action.taskIndex);
 
     default:
       return state;

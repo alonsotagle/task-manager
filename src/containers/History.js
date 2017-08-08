@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import {TaskList} from '../components';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setVisibilityFilter } from '../actions';
+import { VisibleTaskList } from './';
 
 
-export default class History extends Component {
-
-  state = {
-    tasks: [],
-  }
+class History extends Component {
 
   componentWillMount = () => {
-    console.log(this.props);
+    this.props.dispatch(setVisibilityFilter("SHOW_COMPLETED"));
   }
 
   render() {
     return (
-      <div>
-      asdfsadf
-      asdfsadfasdfasdf
-      asdfasdf
-        <TaskList tasks={this.state.tasks} />
-      </div>
+      <VisibleTaskList />
     );
   }
 }
+
+export default withRouter(connect()(History));

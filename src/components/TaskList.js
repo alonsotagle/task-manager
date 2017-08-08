@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {List} from 'material-ui';
 import TaskItem from './TaskItem';
-
 
 const TaskList = ({ tasks, onPressEditTask, onPressRemoveTask }) => (
   <List title="Task">
@@ -9,9 +8,11 @@ const TaskList = ({ tasks, onPressEditTask, onPressRemoveTask }) => (
       <TaskItem
         key={i}
         task={task}
-        onPressEditTask={() => onPressEditTask(i)}
+        onPressEditTask={() => onPressEditTask(i, task)}
         onPressRemoveTask={() => onPressRemoveTask(i)}
         />
     )}
   </List>
 );
+
+export default TaskList;
