@@ -186,7 +186,7 @@ export default class Tasks extends Component {
       text += charset.charAt(Math.floor(Math.random() * charset.length));
     }
 
-    return parseInt(text);
+    return parseInt(text, 10);
   }
 
 

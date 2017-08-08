@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
 import {TaskList} from '../components';
 
 
@@ -41,8 +40,6 @@ export default class Graph extends Component {
   render() {
     return (
       <div>
-        <AppBar title="Task manager" />
-
         <TaskList
           tasks={this.state.tasks}
           />

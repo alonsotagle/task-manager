@@ -15,13 +15,17 @@ export default class TaskItem extends Component {
             subtitle={`${this.props.task.duration} minutes`}
             />
 
-          <FlatButton>
-            {this.props.task.state ?
-              <Done />
-              :
-              <Pending />
-            }
-          </FlatButton>
+          {this.props.task.state ?
+            <FlatButton
+              label="Done"
+              icon={<Done />}
+              />
+            :
+            <FlatButton
+              label="Pending"
+              icon={<Pending />}
+              />
+          }
 
           <CardText>{this.props.task.description}</CardText>
 

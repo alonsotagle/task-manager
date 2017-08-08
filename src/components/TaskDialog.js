@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import {Dialog, FlatButton, TextField, Slider, SelectField, MenuItem, AutoComplete} from 'material-ui';
+import {Dialog, FlatButton, TextField, AutoComplete} from 'material-ui';
 
 
 export default class TaskDialog extends Component {
 
   actions = [
-      <FlatButton
-        label="Cancel"
-        secondary
-        onClick={this.props.onPressClose}
-        />,
-      <FlatButton
-        label="Save"
-        primary
-        onClick={this.props.onPressSave}
-        />,
-    ];
+    <FlatButton
+      label="Cancel"
+      secondary
+      onClick={this.props.onPressClose}
+      />,
+    <FlatButton
+      label="Save"
+      primary
+      onClick={this.props.onPressSave}
+      />,
+  ];
 
   render() {
     return (
